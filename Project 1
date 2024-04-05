@@ -3,26 +3,14 @@
 2. attending_doctor_id contains a 2 and the length of patient_id is 3 characters.
 
 Admissions
- 	patient_id 	INT
-	admission_date 	DATE
-	discharge_date 	DATE
-	diagnosis 	TEXT
-  attending_doctor_id 	INT
+ 	patient_id 		INT
+	admission_date 		DATE
+	discharge_date 		DATE
+	diagnosis 		TEXT
+  	attending_doctor_id 	INT
 
 
-select
-	patient_id
-    , attending_doctor_id
-    , diagnosis
-from
-	admissions
-where
-	(
-    patient_id%2 = 1
-    and 
-    attending_doctor_id in (1,5,19)
-    )
-    or 
-    (attending_doctor_id like '%2%'
-     and
-     len(patient_id) =3)
+SELECT patient_id, attending_doctor_id, diagnosis
+FROM admissions
+WHERE (patient_id % 2 = 1 AND attending_doctor_id in (1,5,19)) 
+	OR (attending_doctor_id like '%2%' AND LEN(patient_id) =3)
