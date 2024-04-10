@@ -3,7 +3,7 @@ Cleaning Data in SQL Queries
 */
 
 SELECT *
-FROM AnalystBuilder_SQL.dbo.[Nashville Housing]
+FROM AnalystBuilder_SQL.dbo.[Nashville Housing];
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -13,7 +13,7 @@ ALTER TABLE [Nashville Housing]
 Add SaleDateConverted Date; 
 
 Update [Nashville Housing]
-Set SaleDateConverted = CONVERT(DATE,SaleDate)
+Set SaleDateConverted = CONVERT(DATE,SaleDate);
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -21,14 +21,14 @@ Set SaleDateConverted = CONVERT(DATE,SaleDate)
 
 SELECT PropertyAddress
 FROM AnalystBuilder_SQL.dbo.[Nashville Housing]
-WHERE PropertyAddress is null
+WHERE PropertyAddress is null;
 
 SELECT a.ParcelID, a.PropertyAddress, b.ParcelID, b.PropertyAddress, ISNULL(a.PropertyAddress,b.PropertyAddress)
 FROM AnalystBuilder_SQL.dbo.[Nashville Housing] a
 JOIN AnalystBuilder_SQL.dbo.[Nashville Housing] b
 	ON a.ParcelID = b.ParcelID
 	AND a.[UniqueID ] <> b.[UniqueID ]
-WHERE a.PropertyAddress is null
+WHERE a.PropertyAddress is null;
 
 UPDATE a 
 SET PropertyAddress = ISNULL(a.PropertyAddress,b.PropertyAddress)
@@ -36,7 +36,7 @@ FROM AnalystBuilder_SQL.dbo.[Nashville Housing] a
 JOIN AnalystBuilder_SQL.dbo.[Nashville Housing] b
 	ON a.ParcelID = b.ParcelID
 	AND a.[UniqueID ] <> b.[UniqueID ]
-WHERE a.PropertyAddress is null
+WHERE a.PropertyAddress is null;
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -46,16 +46,17 @@ SELECT
 	  PropertyAddress
 	, SUBSTRING(PropertyAddress, 1, CHARINDEX(',',PropertyAddress) - 1) as Address
 	, SUBSTRING(PropertyAddress, CHARINDEX(',',PropertyAddress) + 1, LEN(PropertyAddress)) as City
-FROM AnalystBuilder_SQL.dbo.[Nashville Housing] 
+FROM AnalystBuilder_SQL.dbo.[Nashville Housing];
 
 ALTER TABLE [Nashville Housing]
 ADD 
 	  PropertySplitAddress varchar(255)
 	, PropertySplitCity varchar(255);
+
 UPDATE [Nashville Housing]
 SET 
 	  PropertySplitAddress = SUBSTRING(PropertyAddress, 1, CHARINDEX(',',PropertyAddress) - 1)
-	, PropertySplitCity = SUBSTRING(PropertyAddress, CHARINDEX(',',PropertyAddress) + 1, LEN(PropertyAddress))
+	, PropertySplitCity = SUBSTRING(PropertyAddress, CHARINDEX(',',PropertyAddress) + 1, LEN(PropertyAddress));
 
 -- For Owner Address as well
 
@@ -64,19 +65,19 @@ SELECT
 	, PARSENAME(REPLACE(OwnerAddress, ',','.'),3)
 	, PARSENAME(REPLACE(OwnerAddress, ',','.'),2)
 	, PARSENAME(REPLACE(OwnerAddress, ',','.'),1)
-FROM AnalystBuilder_SQL.dbo.[Nashville Housing] 
+FROM AnalystBuilder_SQL.dbo.[Nashville Housing];
 
 ALTER TABLE [Nashville Housing]
 ADD 
 	  OwnerSplitAddress varchar(255)
 	, OwnerSplitCity varchar(255)
-	, OwnerSplitState varchar(255)
+	, OwnerSplitState varchar(255);
 
 UPDATE [Nashville Housing]
 SET 
 	  OwnerSplitAddress = PARSENAME(REPLACE(OwnerAddress, ',','.'),3)
 	, OwnerSplitCity = PARSENAME(REPLACE(OwnerAddress, ',','.'),2)
-	, OwnerSplitState = PARSENAME(REPLACE(OwnerAddress, ',','.'),1)
+	, OwnerSplitState = PARSENAME(REPLACE(OwnerAddress, ',','.'),1);
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -85,20 +86,20 @@ SET
 SELECT Distinct(SoldAsVacant), COUNT(SoldAsVacant)
 FROM AnalystBuilder_SQL.dbo.[Nashville Housing]
 GROUP BY SoldAsVacant
-ORDER BY 2
+ORDER BY 2;
 
 SELECT SoldAsVacant
 	, CASE WHEN SoldAsVacant = 'Y' THEN 'Yes'
 		   WHEN SoldAsVacant = 'N' THEN 'No'
 		   ELSE SoldAsVacant
 		   END
-FROM AnalystBuilder_SQL.dbo.[Nashville Housing]
+FROM AnalystBuilder_SQL.dbo.[Nashville Housing];
 
 UPDATE [Nashville Housing]
 SET SoldAsVacant = CASE WHEN SoldAsVacant = 'Y' THEN 'Yes'
 						WHEN SoldAsVacant = 'N' THEN 'No'
 						ELSE SoldAsVacant
-						END
+						END;
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
@@ -120,16 +121,13 @@ FROM AnalystBuilder_SQL.dbo.[Nashville Housing]
 )
 DELETE
 FROM RowNumCTE
-WHERE row_num > 1
+WHERE row_num > 1;
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
 -- Delete Unused Columns
 
-SELECT *
-FROM AnalystBuilder_SQL.dbo.[Nashville Housing]
-
 ALTER TABLE [Nashville Housing]
-DROP COLUMN PropertyAddress, OwnerAddress, TaxDistrict, SaleDate
+DROP COLUMN PropertyAddress, OwnerAddress, TaxDistrict, SaleDate;
 
 ------------------------------------------------------------------------------------------------------------------------------------
