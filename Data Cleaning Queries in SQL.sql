@@ -10,7 +10,7 @@ FROM AnalystBuilder_SQL.dbo.[Nashville Housing]
 -- Standardize Data Format
 
 ALTER TABLE [Nashville Housing]
-Add SaleDateConverted Date; 
+ADD SaleDateConverted Date; 
 
 UPDATE [Nashville Housing]
 SET SaleDateConverted = CONVERT(DATE,SaleDate)
