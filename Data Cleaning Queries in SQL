@@ -12,8 +12,8 @@ FROM AnalystBuilder_SQL.dbo.[Nashville Housing]
 ALTER TABLE [Nashville Housing]
 Add SaleDateConverted Date; 
 
-Update [Nashville Housing]
-Set SaleDateConverted = CONVERT(DATE,SaleDate)
+UPDATE [Nashville Housing]
+SET SaleDateConverted = CONVERT(DATE,SaleDate)
 
 ------------------------------------------------------------------------------------------------------------------------------------
 
